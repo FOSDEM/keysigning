@@ -1,5 +1,7 @@
 This directory contains voodoo for keysigning.
 
+Scripts:
+
  o kspd.pl -- key submission server.
    Start this as user ksp:
      su -s /bin/sh -c "/home/services/ksp/kspd.pl" ksp
@@ -18,8 +20,23 @@ This directory contains voodoo for keysigning.
    Hackish script to throw submissions-per-day into
    rrdtool to prove procrastination by participants.
 
+Miscellaneous:
+
+ o htdocs/ contains symlinks to the submission scripts
+   for anyone who wants to review them (what fun!).
+
+ o Because we don't trust content damagement systems,
+   we also keep website announcements there.  Ideally
+   we should just be able to use the webby thing's
+   internal "version control" to bring up the website
+   from year to year
+
 Things to remember for next years:
 
  o Before announcing the keysigning, clear keys/*.
+   - actually, mv keys keys.year; mkdir keys
  o When the submission deadline expires, touch kspd.lock.
  o ...
+
+How did generating lists work again?
+What was the graphing stuff for?
