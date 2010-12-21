@@ -1,0 +1,25 @@
+This directory contains voodoo for keysigning.
+
+ o kspd.pl -- key submission server.
+   Start this as user ksp:
+     su -s /bin/sh -c "/home/services/ksp/kspd.pl" ksp
+   Writes received keys to keys/* with filename keyid.
+
+ o klist.sh -- key list generator.
+   Generates a pretty-printable list of keys from the
+   keys in keys/* and klist.head.  Uses kstats.pl to
+   add some statistics for every key.
+
+ o kstats.pl -- key statistics.
+   Looks up statistics for every key.  Used internally
+   by klist.sh.  Probably shouldn't be touched. :-)
+
+ o subgraph.pl -- graph submissions.
+   Hackish script to throw submissions-per-day into
+   rrdtool to prove procrastination by participants.
+
+Things to remember for next years:
+
+ o Before announcing the keysigning, clear keys/*.
+ o When the submission deadline expires, touch kspd.lock.
+ o ...

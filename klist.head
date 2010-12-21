@@ -1,0 +1,36 @@
+                                        --Philip Paeps <philip@fosdem.org>
+
+
+                F O S D E M   2 0 1 0   K E Y S I G N I N G P A R T Y
+
+                                 List of Participants
+
+
+Here's what you have to do with this file:
+
+(1) Print this UTF-8 encoded file to paper.  Use e.g. paps(1) from
+    http://paps.sf.net/.
+
+(2) Compute this file's SHA256 checksum and optionally also its RIPEMD160
+    checksum.
+
+      gpg --print-md SHA256 ksp-fosdem2010.txt  (or use GNU coreutils sha256sum)
+      gpg --print-md RIPEMD160 ksp-fosdem2010.txt
+
+(3) Fill in the hash values on the printout.
+
+(4) Bring the printout, a pen, and proof of identity to the keysigningparty
+    (and be on time!).
+
+RIPEMD160 Checksum: ____ ____ ____ ____ ____    ____ ____ ____ ____ ____    [ ]
+
+
+SHA256 Checksum:    ________ ________ ________ ________
+
+                    ________ ________ ________ ________                     [ ]
+
+
+
+
+
+

@@ -1,0 +1,41 @@
+From: Philip Paeps <philip@fosdem.org>
+Subject: FOSDEM 2010 Keysigning: list of participants
+
+You are receiving this message because your email address is listed as uid in
+a PGP public key submitted for the FOSDEM 2010 keysigning party.  If you are
+not interested in this keysigning party, or you have no idea what this is
+about, please accept our apologies for bothering you and ignore this message.
+
+The final list of participants in the FOSDEM 2010 keysigning party has now
+been published.  If you still intend to participate, you should now:
+
+ * Download the list of participants:
+ 
+     http://ksp.fosdem.org/files/ksp-fosdem2010.txt
+
+ * Optionally, if there is a trustpath between your PGP key and the
+   author's, verify the integrity of the file using the detached
+   signature:
+   
+     http://ksp.fosdem.org/files/ksp-fosdem2010.txt.asc
+
+   e.g. using:
+   
+     % gpg --verify ksp-fosdem2010.txt.asc ksp-fosdem2010.txt
+
+ * Verify that your key fingerprint as shown on the list is correct.
+
+ * Calculate the checksums of the file holding the list of keys.
+
+   e.g. using:
+
+     % gpg --print-md SHA256 ksp-fosdem2010.txt
+     % gpg --print-md RIPEMD160 ksp-fosdem2010.txt
+
+ * Print this list of keys with fingerprints on paper.
+ 
+ * Write the checksums you calculated in the designated blanks.
+
+Thank you for joining and see you at FOSDEM 2010!
+
+ - Philip [hat: FOSDEM 2010 keymaster]
