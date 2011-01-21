@@ -18,7 +18,9 @@ use POSIX qw/strftime/;
 use RRDs;
 use Time::Local;
 
-my $basedir = "/home/services/ksp";
+my $year = "2011";			# Current FOSDEM edition.
+my $startdate = "20101220";		# Start date of submissions.
+my $basedir = "/home/services/ksp";	# Absolute location of files.
 
 # Get timestamps for all files in the given directory.
 sub getmtimes($) {
@@ -29,6 +31,33 @@ sub getmtimes($) {
 		grep { ! m/^\.|\!/ }
 		$d->read();
 }
+
+# Create the rrdtool database.
+sub createrrd() {
+	unlink "$basedir/keys.rrd";
+	RRDs::create("$basedir/keys.rrd", "--start", $startdate,
+	    "--step", "1days", "DS:keys:GAUGE:86400:0:U",
+	    "RRA:MAX:0.5:86400:365");
+	my $err = RRDs::error;
+	if ($err) {
+		warn "Error creating RRD: $err\n";
+	}
+}
+
+# Create the rrdtool graph.
+sub creategraph() {
+	RRDs::graph("$basedir/graphs/submissions.png", "--start", $startdate,
+	    "-w", 512, "-t", "Key Submissions per Day ($year)", "-v",
+	    "# of keys", "DEF:keys=$basedir/keys.rrd:keys:MAX",
+	    "LINE:keys#ff0000:Keys submitted");
+	my $err = RRDs::error;
+	if ($err) {
+		warn "Error creating graph: $err\n";
+	}
+}
+
+# Create a fresh rrdtool database.
+createrrd();
 
 # Get the number of submissions per day.
 my %days = ();
@@ -43,10 +72,13 @@ foreach my $day (sort(keys %days)) {
 	my $time = timelocal(0, 0, 0, $d, $m-1, $y-1900);
 	my $err;
 
-	printf "$day - $days{$day}\n";
+	#printf "$day - $days{$day}\n";
 	RRDs::update("$basedir/keys.rrd", "$time:$days{$day}");
 	$err = RRDs::error;
 	if ($err) {
 		warn "Error updating RRD: $err\n";
 	}
 }
+
+# Graph the results.
+creategraph();

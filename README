@@ -19,6 +19,9 @@ Scripts:
  o subgraph.pl -- graph submissions.
    Hackish script to throw submissions-per-day into
    rrdtool to prove procrastination by participants.
+   
+   - Note this runs from cron - the cronjob should be
+     stopped when submissions close!
 
 Miscellaneous:
 
