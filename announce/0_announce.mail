@@ -1,0 +1,22 @@
+From: Philip Paeps <philip@fosdem.org>
+To: fosdem@lists.fosdem.org
+Subject: Keysigning: please submit your keys
+
+The keysigning infrastructure seems to have held up well this year.  I spent
+some time today preparing the infrastructure for FOSDEM 2011.
+
+Same procedure as last year: if you intend to participate in the keysigning
+event, please submit the keys you'd like to have signed to ksp.fosdem.org.
+
+If you're using GnuPG, that can be easily accomplished with:
+
+  % gpg --keyserver ksp.fosdem.org --send-key <your-keyid>
+
+Please check that your key was correctly submitted by pointing a webbrowser
+at http://ksp.fosdem.org/.  If your key is missing after you submitted it,
+send me an email and I'll try to find out what's up.
+
+Key submissions close Monday before FOSDEM to give me some time to try to
+remember how I generated the lists again.
+
+Get submitting.

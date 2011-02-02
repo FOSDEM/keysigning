@@ -43,5 +43,16 @@ done
 gpg --homedir $gpghome -q --no-options --armor --export \
     --export-options export-clean | bzip2 > $basedir/output/keyring.asc.bz2
 
+# And a list of hashes - don't publish before the event!
+(
+    cd $basedir/output
+    gpg --print-mds keylist.txt > hashes.txt
+)
+
+echo
+echo
 echo "Don't forget to generate and publish a detached signature too!"
 echo "Use: gpg --detach-sign --armor"
+echo
+echo
+echo "Do *not* publish hashes.txt before the event!"
