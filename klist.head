@@ -1,9 +1,9 @@
                                         --Philip Paeps <philip@fosdem.org>
 
 
-                F O S D E M   2 0 1 1   K E Y S I G N I N G P A R T Y
+          F O S D E M   2 0 1 2   K E Y S I G N I N G   E V E N T
 
-                                 List of Participants
+                            List of Participants
 
 
 Here's what you have to do with this file:
@@ -16,8 +16,8 @@ Here's what you have to do with this file:
 
 (2) Compute this file's SHA256 and RIPEMD160 checksums.
 
-      gpg --print-md SHA256 ksp-fosdem2011.txt
-      gpg --print-md RIPEMD160 ksp-fosdem2011.txt
+      gpg --print-md SHA256 ksp-fosdem2012.txt
+      gpg --print-md RIPEMD160 ksp-fosdem2012.txt
 
 (3) Fill in the hash values on the printout.
 
@@ -25,9 +25,9 @@ Here's what you have to do with this file:
     the keysigning event. (and be on time!).
 
 (5) Make sure that you finish your signing-work at home
-    no later than Sunday 5 June 2011.  Please.
+    no later than Sunday 10 June 2012.  Please.
 
-(6) Check http://fosdem.org/2011/keysigning for further
+(6) Check http://fosdem.org/2012/keysigning for further
     announcements and updates.
 
 (7) Please upload your keys to a reliable keyserver on
