@@ -32,6 +32,9 @@ Miscellaneous
  o htdocs/ contains symlinks to the submission scripts
    for anyone who wants to review them (what fun!).
 
+ o Use paps --columns=2 --font=Monospace\ 5 ksp-fosdemXXXX.txt
+   to print the keylist.
+
 Sequence of events
 ------------------
 
