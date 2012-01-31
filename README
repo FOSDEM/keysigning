@@ -1,12 +1,28 @@
-This directory contains voodoo for keysigning.
+This repository contains the voodoo that is used to run FOSDEM keysigning
+events.  It is shared on github so that people requesting features can just
+implement them themselves.  Perhaps our infrastructure is also useful to
+others organizing similar events?
+
+There is no particular order here.  This all grew organically over years of
+organizing FOSDEM keysigning events.  Parts were written by FOSDEM, parts by
+others.  Most files have a licence block.  Files without a licence block are
+placed in the public domain.
+
+Share and enjoy!
+
+ - Philip Paeps <philip@fosdem.org> 20120131
+
+Table of contents (roughly):
+----------------------------
 
 Scripts
 -------
 
  o kspd.pl -- key submission server.
-   Start this as user ksp:
+   Start this as user ksp on apeiron.fosdem.org:
      su -s /bin/sh -c "/home/services/ksp/kspd.pl" ksp
    Writes received keys to keys/* with filename keyid.
+   Refuses submissions if a kspd.lock file is present.
 
  o klist.sh -- key list generator.
    Generates a pretty-printable list of keys from the
@@ -21,10 +37,8 @@ Scripts
    Hackish script to throw submissions-per-day into
    rrdtool to prove procrastination by participants.
    
-   - Note this runs from cron - the cronjob should be
-     stopped when submissions close!
-
-   - Actually, just test for kspd.lock.
+   - Runs as a cronjob on apeiron.fosdem.org
+   - Bails out if it finds a kspd.lock
 
 Miscellaneous
 -------------
@@ -35,8 +49,8 @@ Miscellaneous
  o Use paps --columns=2 --font=Monospace\ 5 ksp-fosdemXXXX.txt
    to print the keylist.
 
-Sequence of events
-------------------
+Sequence of events for a FOSDEM
+-------------------------------
 
   Kickoff, mid-December:
 
