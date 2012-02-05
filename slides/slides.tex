@@ -1,0 +1,68 @@
+%
+% PGP keysigning slides.
+%
+% (c) 2010-2012 Philip Paeps <philip@FreeBSD.org>.
+%
+
+\documentclass{beamer}
+
+\mode<presentation>
+{
+	\usetheme{Copenhagen}
+	\usefonttheme{structurebold}
+	\useinnertheme{rectangles}
+}
+
+% \includegraphics does not support transparency.  Use pgf for these.
+\pgfdeclareimage[height=1.5cm]{brain-logo}{images/brain}
+\pgfdeclareimage[height=0.5cm]{brain-logo-small}{images/brain}
+
+\title{Keysigning Party}
+\author[Philip Paeps]{Philip Paeps \\ {\tt philip@fosdem.org}}
+\date[FOSDEM 2012]{FOSDEM 2012 --- Brussels, Belgium \\ 5 February 2012}
+\logo{\pgfuseimage{brain-logo-small}}
+
+\begin{document}
+
+\begin{frame}[plain]
+    \titlepage
+    \begin{center}
+	\pgfuseimage{brain-logo}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{List Hashes}
+
+    \begin{itemize}
+    \item RMD160 \\ {\tt NOT YET}
+    \vfill
+    \item SHA256 \\ {\tt NOT YET}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Verification Procedure}
+
+    \begin{itemize}
+    \item Outside! (take your coat)
+    \item Make two lines of roughly equal length
+    \item Check ID, confirm fingerprint OK
+    \item Move one person to the right
+    \item Keep moving!
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Signing Procedure}
+
+    \begin{itemize}
+    \item At home, on trusted computer
+    \item Keyring will be published on ksp.fosdem.org
+    \item Do yourself a favour: use {\tt caff} or something
+    \item Only sign keys you actually verified (d'oh!)
+    \item Don't procrastinate, just Do It\texttrademark
+    \end{itemize}
+\end{frame}
+
+\end{document}
