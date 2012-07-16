@@ -18,7 +18,7 @@ use CGI::Util qw/unescape/;
 use File::Temp qw/tempfile/;
 use HTTP::Daemon;
 
-my $basedir = "/home/services/ksp";
+my $basedir = "/var/ksp";
 my $gpg = "/usr/bin/gpg";
 my $gpgflags = "-q --no-options --homedir=$basedir/gpg";
 

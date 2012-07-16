@@ -6,7 +6,7 @@
 # pgp-kspkeyserver (http://mdcc.cx/pgp-kspkeyserver/).
 #
 
-basedir=/home/services/ksp
+basedir=/var/ksp
 
 # Make sure we really want to do this
 if [ -d $basedir/output ]; then

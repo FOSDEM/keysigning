@@ -20,7 +20,7 @@ use Time::Local;
 
 my $year = "2012";			# Current FOSDEM edition.
 my $startdate = "20111217";		# Start date of submissions.
-my $basedir = "/home/services/ksp";	# Absolute location of files.
+my $basedir = "/var/ksp";		# Absolute location of files.
 
 # Bail out if submissions are closed!
 if (-e "$basedir/kspd.lock") {

@@ -20,7 +20,7 @@ Scripts
 
  o kspd.pl -- key submission server.
    Start this as user ksp on apeiron.fosdem.org:
-     su -s /bin/sh -c "/home/services/ksp/kspd.pl" ksp
+     su -s /bin/sh -c "/var/ksp/kspd.pl" ksp
    Writes received keys to keys/* with filename keyid.
    Refuses submissions if a kspd.lock file is present.
 
