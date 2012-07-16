@@ -1,0 +1,16 @@
+# git should ignore these files
+
+# Archives from previous years
+2???/*
+
+# Current edition data
+files
+graphs
+keys
+output
+
+# Current edition statistics
+keys.rrd
+
+# Keyserver lockfile
+kspd.lock
