@@ -55,6 +55,8 @@ Sequence of events for a FOSDEM
   Kickoff, mid-December:
 
     o Archive previous years state (mv to year directory)
+    o Remember to adjust the vhost configuration
+      - / should redirect to /keys, not /files
     o Send email (announce/0_announce.mail) to fosdem@
     o Add event page (announce/0_announce.html) to Drupal
 
