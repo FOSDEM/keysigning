@@ -19,7 +19,7 @@ use RRDs;
 use Time::Local;
 
 my $year = "2013";			# Current FOSDEM edition.
-my $startdate = "20111208";		# Start date of submissions.
+my $startdate = "20121207";		# Start date of submissions.
 my $basedir = "/var/ksp";		# Absolute location of files.
 
 # Bail out if submissions are closed!
