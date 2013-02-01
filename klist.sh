@@ -19,7 +19,7 @@ mkdir -p $gpghome
 chmod 700 $gpghome
 
 # Import all keys into a clean gpg keyring.
-for key in $(ls -1tcr $basedir/keys); do
+for key in $(ls -1tr $basedir/keys); do
     # Skip files starting with !.
     [ "x${key%!*}" = "x" ] && continue
     gpg --homedir $gpghome -q --import $basedir/keys/$key
