@@ -55,11 +55,19 @@ Sequence of events for a FOSDEM
   Kickoff, mid-December:
 
     o Archive previous years state (mv to year directory)
+      % mkdir $prevyear
+      % mv {files,graphs,keys,output} $prevyear
+      % mkdir files graphs keys output
+    o Adjust the dates in subgraph.pl
+      - Note that the 'start date' should be yesterday
+    o Run subgraph.pl manually to bootstrap the graph
+      % sudo -u ksp perl ./subgraph.pl
     o Remember to adjust the vhost configuration
       - / should redirect to /keys, not /files
     o Remember to remove the kspd.lock file
     o Send email (announce/0_announce.mail) to fosdem@
-    o Add event page (announce/0_announce.html) to Drupal
+    o Update the dates in the keysigning: stanza of the
+      website's config.yaml and regenerate the website
 
   List generation, week before FOSDEM:
 
