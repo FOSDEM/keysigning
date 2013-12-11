@@ -57,6 +57,7 @@ Sequence of events for a FOSDEM
     o Archive previous years state (mv to year directory)
     o Remember to adjust the vhost configuration
       - / should redirect to /keys, not /files
+    o Remember to remove the kspd.lock file
     o Send email (announce/0_announce.mail) to fosdem@
     o Add event page (announce/0_announce.html) to Drupal
 
