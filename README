@@ -49,6 +49,18 @@ Miscellaneous
  o Use paps --columns=2 --font=Monospace\ 5 ksp-fosdemXXXX.txt
    to print the keylist.
 
+
+TODOs / nice to have's
+----------------------
+
+ - Sort the keylist somehow, to avoid people with multiple keys to
+   either be at 2 places in the row at once, or having to flip back
+   and forth between pages.
+   Sorting by name might not do it ( first/last name ordering, ...)
+   Sorting by submit timestamp?
+
+ - have KSPd listen on IPv6 as well
+
 Sequence of events for a FOSDEM
 -------------------------------
 
