@@ -17,6 +17,7 @@ use strict;
 use CGI::Util qw/unescape/;
 use File::Temp qw/tempfile/;
 use HTTP::Daemon;
+use POSIX;
 
 my $basedir = "/var/ksp";
 my $gpg = "/usr/bin/gpg";
@@ -25,10 +26,19 @@ my $gpgflags = "-q --no-options --homedir=$basedir/gpg";
 my $daemonize = 1;
 my $debug = 0;
 
+my %kspd = (
+	LocalAddr => "ksp.fosdem.org",
+	LocalPort => 11371,
+	PreFork => 5,
+	MaxReq => 10,
+	Timeout => 30,
+);
+my %children = ();
+
 # Fire up a HTTP listener to deal with requests.
 my $d = HTTP::Daemon->new(
-    LocalAddr => "0.0.0.0",
-    LocalPort => 11371,
+    LocalAddr => $kspd{LocalAddr},
+    LocalPort => $kspd{LocalPort},
     Reuse	=> 1,
     ) or die "Couldn't create HTTP::Daemon instance: $!";
 
@@ -126,9 +136,11 @@ if ($daemonize) {
 #
 # Accept HTTP::Daemon connections and dispatch them to do stuff.
 #
-while (my $c = $d->accept) {
-	my $peer = $c->peerhost();
+sub handle_connection($) {
+	my $c = shift;
+	my $pid = getpid();
 
+	$c->timeout($kspd{'Timeout'});
 	while (my $r = $c->get_request) {
 		if ($r->method eq "POST" and $r->url->path eq "/pks/add") {
 			add_key($c, $r);
@@ -136,7 +148,67 @@ while (my $c = $d->accept) {
 			send_response($c, 501, "Not implemented");
 		}
 	}
-
 	$c->close;
 	undef($c);
+}
+
+#
+# Create a new child process to handle connections.
+#
+sub new_child() {
+	my $pid;
+	my $sigset;
+
+	$sigset = POSIX::SigSet->new(SIGINT);
+	sigprocmask(SIG_BLOCK, $sigset)
+		or die "Can't block SIGINT for fork: $!\n";
+	die "Couldn't fork: $!" unless defined ($pid = fork);
+
+	if ($pid) {
+		# Parent: record childbirth and return.
+		sigprocmask(SIG_UNBLOCK, $sigset)
+			or die "Can't unblock SIGINT for parent: $!\n";
+		$children{$pid} = 1;
+		return;
+	} else {
+		# Child: does not return.
+		$SIG{INT} = 'DEFAULT';
+		sigprocmask(SIG_UNBLOCK, $sigset)
+			or die "Can't unblock SIGINT for child: $!\n";
+		for (my $i = 0; $i < $kspd{MaxReq}; $i++) {
+			my $c = $d->accept or last;
+			handle_connection($c);
+		}
+		# Prevent proliferation of zombies.
+		exit;
+	}
+}
+
+sub REAPER {				# Takes care of dead children.
+	$SIG{CHLD} = \&REAPER;
+	my $pid = wait;
+	delete $children{$pid};
+}
+
+sub HUNTSMAN {				# Signal handler for SIGINT.
+	local($SIG{CHLD}) = 'IGNORE';	# We're going to kill our children.
+	kill 'INT' => keys %children;
+	exit;				# Clean up with dignity.
+}
+
+# Prefork children.
+for (1 .. $kspd{PreFork}) {
+	new_child();
+}
+
+# Install signal handlers.
+$SIG{CHLD} = \&REAPER;
+$SIG{INT}  = \&HUNTSMAN;
+
+# And maintain the population.
+while (1) {
+	sleep;			# Wait for a signal (e.g., child's death).
+	for (scalar(keys %children) .. $kspd{PreFork}-1) {
+		new_child();	# Top up the child pool.
+	}
 }
