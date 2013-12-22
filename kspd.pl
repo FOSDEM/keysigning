@@ -52,8 +52,7 @@ sub send_response($$$) {
 	$response->content($m);
 	$response->header("Content-Type" => "text/plain");
 	$c->send_response($response);
-
-	print STDERR "$m\n" if $debug;
+	$c->send_crlf;
 }
 
 #
@@ -79,6 +78,7 @@ sub add_key($$) {
 	my $f = decode_key($r);
 
 	if (!$f) {
+	    print STDERR "Key rejected: invalid data\n" if $debug;
 	    send_response($c, 400, "Invalid data");
 	    return;
 	}
@@ -95,12 +95,15 @@ sub add_key($$) {
 
 		# Sanity check.
 		if ($keyid eq "" or $uid eq "") {
+			print STDERR "Key rejected: invalid key\n" if $debug;
 			send_response($c, 400, "Invalid key");
 			last;
 		}
 
 		# Don't accept keys after the submission deadline.
 		if (-e "$basedir/kspd.lock") {
+			print STDERR "Key rejected: kspd locked\n" if $debug;
+			$c->force_last_request;
 			send_response($c, 403, "Submissions closed");
 			last;
 		}
@@ -108,12 +111,15 @@ sub add_key($$) {
 		my $keyfile = "$basedir/keys/$keyid";
 		unlink $keyfile if -e $keyfile;
 		if (!link $f, $keyfile) {
+			print STDERR "Key rejected: $!\n" if $debug;
+			$c->force_last_request;
 			send_response($c, 500, "Write error");
 			last;
 		}
 		chmod 0644, $keyfile;
 
-		send_response($c, 200, "Key submitted");
+		print STDERR "Key accepted: $keyid ($uid)\n" if $debug;
+		send_response($c, 200, "$keyid successfully submitted");
 		last;
 	}
 
@@ -138,17 +144,24 @@ if ($daemonize) {
 #
 sub handle_connection($) {
 	my $c = shift;
-	my $pid = getpid();
+
+	printf STDERR "Connection from %s\n", $c->peerhost if $debug;
 
 	$c->timeout($kspd{'Timeout'});
 	while (my $r = $c->get_request) {
 		if ($r->method eq "POST" and $r->url->path eq "/pks/add") {
 			add_key($c, $r);
 		} else {
-			send_response($c, 501, "Not implemented");
+			printf STDERR "Invalid request: %s %s\n",
+			    $r->method, $r->url->path if $debug;
+			$c->force_last_request;
+			send_response($c, 501,
+			    "This keyserver only accepts submissions");
 		}
 	}
 	$c->close;
+
+	printf STDERR "Connection closed: %s\n", $c->reason if $debug;
 	undef($c);
 }
 
