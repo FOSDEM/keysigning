@@ -50,16 +50,23 @@ Miscellaneous
    to print the keylist.
 
 
-TODOs / nice to have's
-----------------------
+TODO / nice to have
+-------------------
 
- - Sort the keylist somehow, to avoid people with multiple keys to
+ o Sort the keylist somehow, to avoid people with multiple keys to
    either be at 2 places in the row at once, or having to flip back
    and forth between pages.
    Sorting by name might not do it ( first/last name ordering, ...)
    Sorting by submit timestamp?
+   - See 48b53c209d9ff5c82528e961bf0552d66378caa6
 
- - have KSPd listen on IPv6 as well
+ o Have kspd listen on IPv6 as well
+   - HTTP::Daemon is a subclass of IO::Socket::INET and will
+     probably never get IPv6 support (though ugly patches do exist).
+   - It should not be too difficult to write our own, but ... meh.
+   - In the mean time, we have a socat proxy:
+     % socat TCP6-LISTEN:11371,bind=ksp.fosdem.org,ipv6only,fork,su=ksp \
+          TCP4:ksp.fosdem.org:11371
 
 Sequence of events for a FOSDEM
 -------------------------------
