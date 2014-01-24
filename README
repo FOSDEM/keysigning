@@ -101,4 +101,6 @@ Sequence of events for a FOSDEM
     o Also copy the keyring there
 
     o Send email (announce/1_list.mail) to fosdem@
-    o Update event page (announce/1_list.html) in Drupal
+    o Update website
+      - In the Nanoc site, it should be sufficient to edit the
+        keysigning-section of config.yaml
