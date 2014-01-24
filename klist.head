@@ -34,12 +34,16 @@ Here's what you have to do with this file:
     a regular basis so we can make nice statistics!
 
 
-RIPEMD160 Checksum: ____ ____ ____ ____ ____    ____ ____ ____ ____ ____    [ ]
+RIPEMD160 Checksum: _ _ _ _  _ _ _ _  _ _ _ _  _ _ _ _  _ _ _ _
+
+                    _ _ _ _  _ _ _ _  _ _ _ _  _ _ _ _  _ _ _ _             [ ]
 
 
-SHA256 Checksum:    ________ ________ ________ ________
+SHA256 Checksum:    _ _ _ _ _ _ _ _  _ _ _ _ _ _ _ _  _ _ _ _ _ _ _ _
 
-                    ________ ________ ________ ________                     [ ]
+                    _ _ _ _ _ _ _ _  _ _ _ _ _ _ _ _  _ _ _ _ _ _ _ _
+
+                    _ _ _ _ _ _ _ _  _ _ _ _ _ _ _ _                        [ ]
 
 
 
