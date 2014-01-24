@@ -16,8 +16,8 @@ Here's what you have to do with this file:
 
 (2) Compute this file's SHA256 and RIPEMD160 checksums.
 
-      gpg --print-md SHA256 ksp-fosdem2013.txt
-      gpg --print-md RIPEMD160 ksp-fosdem2013.txt
+      gpg --print-md SHA256 ksp-fosdem2014.txt
+      gpg --print-md RIPEMD160 ksp-fosdem2014.txt
 
 (3) Fill in the hash values on the printout.
 
@@ -25,9 +25,9 @@ Here's what you have to do with this file:
     the keysigning event. (and be on time!).
 
 (5) Make sure that you finish your signing-work at home
-    no later than Sunday 9 June 2013.  Please.
+    no later than Sunday 8 June 2014.  Please.
 
-(6) Check https://fosdem.org/2013/keysigning for further
+(6) Check https://fosdem.org/2014/keysigning for further
     announcements and updates.
 
 (7) Please upload your keys to a reliable keyserver on

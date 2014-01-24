@@ -91,10 +91,11 @@ Sequence of events for a FOSDEM
   List generation, week before FOSDEM:
 
     o Touch kspd.lock to stop submissions
+    o Update klist.head to reflect this year's dates
     o Run klist.sh
     o Verify hashes with someone
     o Sign the list
-    o Put in files/ksp-fosdemXXXX.txt{.asc}
+    o Put in files/ksp-fosdemXXXX.txt{,.asc}
       - Note: *not* the hashes file! This motivates people to verify
         the hashes themselves.
     o Also copy the keyring there
