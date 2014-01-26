@@ -7,27 +7,27 @@ If you're taking part in the keysigning event, you should now:
 
   o Download the list:
 
-       http://ksp.fosdem.org/files/ksp-fosdem2012.txt
+       http://ksp.fosdem.org/files/ksp-fosdem2014.txt
 
   o Optionally, if there's a trust path between your PGP key and mine,
     verify the integrity of the file using the detached signature:
 
-      http://ksp.fosdem.org/files/ksp-fosdem2012.txt.asc
+      http://ksp.fosdem.org/files/ksp-fosdem2014.txt.asc
 
     e.g. using:
 
-      % gpg --verify ksp-fosdem2012.txt.asc ksp-fosdem2012.txt
+      % gpg --verify ksp-fosdem2014.txt.asc ksp-fosdem2014.txt
 
   o Verify that your fingerprint as shown on the list is correct.
+
+  o Print this list of keys with fingerprints on paper.
 
   o Calculate the checksums of the file holding the list of keys.
 
     e.g. using:
 
-      % gpg --print-md RIPEMD160 ksp-fosdem2012.txt
-      % gpg --print-md SHA256 ksp-fosdem2012.txt
-
-  o Print this list of keys with fingerprints on paper.
+      % gpg --print-md RIPEMD160 ksp-fosdem2014.txt
+      % gpg --print-md SHA256 ksp-fosdem2014.txt
 
   o Write the checksums you calculated in the designated blanks.
 
