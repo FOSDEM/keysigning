@@ -70,7 +70,7 @@ Sequence of events for a FOSDEM
     o Archive previous years state (mv to year directory)
       % mkdir $prevyear
       % mv {files,graphs,keys,output} $prevyear
-      % mkdir files graphs keys output
+      % mkdir files graphs keys
     o Adjust the dates in subgraph.pl
       - Note that the 'start date' should be yesterday
     o Run subgraph.pl manually to bootstrap the graph
