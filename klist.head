@@ -9,7 +9,7 @@
 Here's what you have to do with this file:
 
 (0) Verify that the key-id and the fingerprint of your
-    key on this list match with your expectation.
+    key(s) on this list match with your expectation.
 
 (1) Print this UTF-8 encoded file to paper.
     Use e.g. paps(1) from http://paps.sf.net/.
