@@ -12,11 +12,11 @@ If you're taking part in the keysigning event, you should now:
   o Optionally, if there's a trust path between your PGP key and mine,
     verify the integrity of the file using the detached signature:
 
-      http://ksp.fosdem.org/files/ksp-fosdem2014.txt.asc
+      http://ksp.fosdem.org/files/ksp-fosdem2014.txt.sig
 
     e.g. using:
 
-      % gpg --verify ksp-fosdem2014.txt.asc ksp-fosdem2014.txt
+      % gpg --verify ksp-fosdem2014.txt.sig ksp-fosdem2014.txt
 
   o Verify that your fingerprint as shown on the list is correct.
 
