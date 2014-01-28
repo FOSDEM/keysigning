@@ -24,6 +24,10 @@ Scripts
    Writes received keys to keys/* with filename keyid.
    Refuses submissions if a kspd.lock file is present.
 
+ o klist.head.sh -- generate list header for this year
+   Generates the klist.head file with this edition's
+   year number in there.
+
  o klist.sh -- key list generator.
    Generates a pretty-printable list of keys from the
    keys in keys/* and klist.head.  Uses kstats.pl to
@@ -85,7 +89,7 @@ Sequence of events for a FOSDEM
   List generation, week before FOSDEM:
 
     o Touch kspd.lock to stop submissions
-    o Update klist.head to reflect this year's dates
+    o Run klist.head.sh
     o Run klist.sh
     o Verify hashes with someone
     o Sign the list
