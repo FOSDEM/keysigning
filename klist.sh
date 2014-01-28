@@ -27,7 +27,7 @@ done
 
 # Print each key neatly into the keylist.
 (
-    cat $basedir/klist.head
+    sh $basedir/klist.head
 
     gpg --homedir $gpghome -q --no-options --fingerprint --list-key |
 	grep -v '^sub' |
