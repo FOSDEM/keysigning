@@ -9,6 +9,9 @@ graphs
 keys
 output
 
+# generated files
+klist.head
+
 # Current edition statistics
 keys.rrd
 

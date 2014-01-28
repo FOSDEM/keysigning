@@ -1,7 +1,16 @@
+#!/bin/bash
+
+# Generate klist.head
+
+YEAR="$( date +%Y )"
+YEAR_SPACES="$( date +%Y | sed 's/\(.\)/\1 /g' )"
+HOMEWORK_BY="$(date --date="next sunday +4 months" +"%A %e %B %Y")"
+
+cat > klist.head <<EOT
                                         --Niels Laukens <niels@fosdem.org>
 
 
-          F O S D E M   2 0 1 3   K E Y S I G N I N G   E V E N T
+          F O S D E M   ${YEAR_SPACES}  K E Y S I G N I N G   E V E N T
 
                             List of Participants
 
@@ -16,8 +25,8 @@ Here's what you have to do with this file:
 
 (2) Compute this file's SHA256 and RIPEMD160 checksums.
 
-      gpg --print-md SHA256 ksp-fosdem2014.txt
-      gpg --print-md RIPEMD160 ksp-fosdem2014.txt
+      gpg --print-md SHA256 ksp-fosdem${YEAR}.txt
+      gpg --print-md RIPEMD160 ksp-fosdem${YEAR}.txt
 
 (3) Fill in the hash values on the printout.
 
@@ -25,9 +34,9 @@ Here's what you have to do with this file:
     the keysigning event. (and be on time!).
 
 (5) Make sure that you finish your signing-work at home
-    no later than Sunday 8 June 2014.  Please.
+    no later than ${HOMEWORK_BY}.  Please.
 
-(6) Check https://fosdem.org/2014/keysigning for further
+(6) Check https://fosdem.org/${YEAR}/keysigning for further
     announcements and updates.
 
 (7) Please upload your keys to a reliable keyserver on
@@ -50,3 +59,4 @@ SHA256 Checksum:    _ _ _ _ _ _ _ _  _ _ _ _ _ _ _ _  _ _ _ _ _ _ _ _
 
 
 
+EOT
