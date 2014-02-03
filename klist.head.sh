@@ -23,10 +23,10 @@ Here's what you have to do with this file:
 (1) Print this UTF-8 encoded file to paper.
     Use e.g. paps(1) from http://paps.sf.net/.
 
-(2) Compute this file's SHA256 and RIPEMD160 checksums.
+(2) Compute this file's RIPEMD160 and SHA256 checksums.
 
-      gpg --print-md SHA256 ksp-fosdem${YEAR}.txt
       gpg --print-md RIPEMD160 ksp-fosdem${YEAR}.txt
+      gpg --print-md SHA256 ksp-fosdem${YEAR}.txt
 
 (3) Fill in the hash values on the printout.
 
