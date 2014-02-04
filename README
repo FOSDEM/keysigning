@@ -65,6 +65,9 @@ TODO / nice to have
      % socat TCP6-LISTEN:11371,bind=ksp.fosdem.org,ipv6only,fork,su=ksp \
           TCP4:ksp.fosdem.org:11371
 
+ o Provide a way to delete the keys
+   - Authentication is an issue...
+
 
 Sequence of events for a FOSDEM
 -------------------------------
