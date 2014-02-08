@@ -30,8 +30,17 @@ Here's what you have to do with this file:
 
 (3) Fill in the hash values on the printout.
 
-(4) Bring the printout, a pen, and proof of identity to
-    the keysigning event. (and be on time!).
+(4) Bring the printout, a pen, and proof of identity to the keysigning event.
+    You may find it useful to make a badge stating the number(s) of your key(s)
+    on this list and the fact that you verified the fingerprints of your own
+    key(s).  Also provide a place to mark that your hashes match.  Be on time
+    to actually verify the hashes as they are announced!
+    e.g.
+       +----------------------------+
+       | I am number 001            |
+       | My key-id & fingerprint: ☑ |
+       | The hashes:              ☐ |
+       +----------------------------+
 
 (5) Make sure that you finish your signing-work at home no later than
     ${HOMEWORK_BY}.  Please.
