@@ -17,8 +17,8 @@ cat > klist.head <<EOT
 
 Here's what you have to do with this file:
 
-(0) Verify that the key-id and the fingerprint of your
-    key(s) on this list match with your expectation.
+(0) Verify that the key-id and the fingerprint of your key(s) on this list
+    match with your expectation.
 
 (1) Print this UTF-8 encoded file to paper.
     Use e.g. paps(1) from http://paps.sf.net/.
@@ -33,14 +33,14 @@ Here's what you have to do with this file:
 (4) Bring the printout, a pen, and proof of identity to
     the keysigning event. (and be on time!).
 
-(5) Make sure that you finish your signing-work at home
-    no later than ${HOMEWORK_BY}.  Please.
+(5) Make sure that you finish your signing-work at home no later than
+    ${HOMEWORK_BY}.  Please.
 
-(6) Check https://fosdem.org/${YEAR}/keysigning for further
-    announcements and updates.
+(6) Check https://fosdem.org/${YEAR}/keysigning for further announcements and
+    updates.
 
-(7) Please upload your keys to a reliable keyserver on
-    a regular basis so we can make nice statistics!
+(7) Please upload your keys to a reliable keyserver on a regular basis so we
+    can make nice statistics!
 
 
 RIPEMD160 Checksum: _ _ _ _  _ _ _ _  _ _ _ _  _ _ _ _  _ _ _ _
