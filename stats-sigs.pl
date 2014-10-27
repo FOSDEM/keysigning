@@ -5,6 +5,7 @@
 use strict;
 use warnings;
 use List::Util qw/reduce/;
+use DateTime;
 
 my $basedir = "/var/ksp";
 my $gpghome = "$basedir/output/gpg";
@@ -15,6 +16,18 @@ my $until;
 	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 	$until = sprintf "%04d-%02d-%02d", $year+1900, $mon+1, $mday;
 }
+
+{
+	my (undef,undef,undef,undef,undef,undef,undef,undef,undef,$mtime,undef,undef,undef) = stat "$gpghome/pubring.gpg";
+	if( $until !~ m/(\d\d\d\d)-(\d\d)-(\d\d)/ ) {
+		die "invalid until date: $until";
+	}
+	my $u = DateTime->new(year => $1, month => $2, day => $3);
+	if( $u->epoch() - $mtime > 86400 ) {
+		print STDERR "\nWARNING: keyring is older that 1 day\n\n";
+	}
+}
+
 
 open my $keys_fh, "gpg --homedir \"$gpghome\" --list-sigs --with-colons |"
 	or die "Could not list keys";
