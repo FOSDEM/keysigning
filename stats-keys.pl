@@ -11,10 +11,10 @@ use FindBin;
 use lib $FindBin::Bin;
 use Bin;
 
-use Data::Dumper;
-
 my $basedir = "/var/ksp";
 my $gpghome = "$basedir/output/gpg";
+my $now = DateTime->now;
+#$now = DateTime->new( year => 2014, month => 2, day => 2 );
 
 my @age_bins = (
 	["0d", 0],
@@ -66,7 +66,7 @@ while(<$keys_fh>) {
 		$numkeys++;
 		if( $create_date =~ m/(\d\d\d\d)-(\d\d)-(\d\d)/ ) {
 			my $cd = DateTime->new( year => $1, month => $2, day => $3 );
-			my $delta = $cd->delta_days( DateTime->now );
+			my $delta = $cd->delta_days( $now );
 			$age_key->add( $delta->in_units('days') );
 		} else {
 			die "Invalid create_date: $create_date";
