@@ -101,9 +101,10 @@ print "Signatures taken in to account are those made between $since and $until\n
 }
 {
 	my $mostsigs = ( sort { scalar(keys %{$sigs{$b}}) <=> scalar(keys %{$sigs{$a}}) } keys %sigs) [0];
-	printf "%s made the most number of new signatures: %d\n", $mostsigs, scalar(keys %{$sigs{$mostsigs}} );
+	printf "%s received the most number of new signatures: %d\n", $mostsigs, scalar(keys %{$sigs{$mostsigs}} );
+
 	$mostsigs = ( sort { scalar(keys %{$sigsby{$b}}) <=> scalar(keys %{$sigsby{$a}}) } keys %sigsby) [0];
-	printf "%s received the most number of new signatures: %d\n", $mostsigs, scalar(keys %{$sigsby{$mostsigs}} );
+	printf "%s made the most number of new signatures: %d\n", $mostsigs, scalar(keys %{$sigsby{$mostsigs}} );
 }
 printf "%d keys with no new signatures [2]\n", scalar(grep { scalar(keys %{$_}) == 0 } values %sigs);
 printf "%d keys made no new signatures [2]\n", scalar(grep { scalar(keys %{$_}) == 0 } values %sigsby);
