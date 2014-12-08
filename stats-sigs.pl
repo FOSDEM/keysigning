@@ -10,7 +10,7 @@ use DateTime;
 my $basedir = "/var/ksp";
 my $gpghome = "$basedir/output/gpg";
 
-my $since = "2014-02-02";
+my $since = "2015-02-01";
 my $until;
 {
 	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
@@ -33,9 +33,10 @@ open my $keys_fh, "gpg --homedir \"$gpghome\" --list-sigs --with-colons |"
 	or die "Could not list keys";
 
 
+my @keyid;
 my %sigs;
-my %sigsby;
-my %sigclass;
+my %uid;
+my %sigclass = (10=>0, 11=>0, 12=>0, 13=>0);
 
 my %algo = (
 	1 => "RSA",		# RSA (Encrypt or Sign) [HAC]
@@ -55,7 +56,8 @@ while(<$keys_fh>) {
 		my ($validity, $keylength, $algo, $keyid, $create_date, $expire_date, $sn, $ownertrust, $uid, $sigclass, $cap) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);
 		$onto = $keyid;
 		$sigs{$keyid} = {};
-		$sigsby{$keyid} = {} unless exists $sigsby{$keyid};
+		$uid{$keyid} = $uid;
+		push @keyid, $keyid;
 
 	} elsif( m/^sub:([^:]*):(\d*):(\d*):([0-9A-Fa-f]*):([^:]*):([^:]*):():([^:]*):([^:]*):():([^:]*):/ ) {
 
@@ -66,12 +68,13 @@ while(<$keys_fh>) {
 	} elsif( m/^sig:([^:]*):(\d*):(\d*):([0-9A-Fa-f]*):([^:]*):([^:]*):([^:]*):([^:]*):([^:]*):([^:]*):/ ) {
 		my ($validity, $keylength, $algo, $keyid, $create_date, $expire_date, $sn, $ownertrust, $uid, $sigclass, $cap) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);
 		next if $uid eq "[User ID not found]";
-		next unless $create_date ge $since;
-		next unless $create_date le $until;
 		next if $onto eq $keyid; # ignore self-sigs
 
-		$sigs{$onto}->{$keyid}++;
-		$sigsby{$keyid}->{$onto}++;
+		if( $create_date lt $since ) {
+			$sigs{$onto}->{$keyid} = "P";
+		} elsif( $create_date le $until ) {
+			$sigs{$onto}->{$keyid} = "F";
+		}
 		if( $sigclass =~ m/^(10|11|12|13)/ ) {
 			$sigclass{ $1 }++;
 		} else {
@@ -88,32 +91,52 @@ while(<$keys_fh>) {
 	}
 }
 
-print "Statistics about the signatures since the event\n";
-print "===============================================\n";
-print "Signatures taken in to account are those made between $since and $until\n";
-{
-	my $numkeys = scalar( keys %sigs );
-	my $total = 0;
-	for my $v (values %sigs) {
-		$total += scalar( keys %{$v} );
-	}
-	printf "%d new signatures between %d keys [1] (%0.1f new sigs / key)\n", $total, $numkeys, $total / $numkeys;
+sub rows_to_cols {
+	my ($x, $p, $j, $i) = @_;
+# print @$x vertically, with $p spaces between the enties, $j alligned (0=top, 1=bottom)
+# start every line with $i
+	my $m = 0; map { $m = length $_ if $m < length $_ } @$x;
+	($j||0) && map { $_ = sprintf "%*s", $m, $_ } @$x;
+	@_ =  map { ($")x(defined $p ? $p : 2),$_ } @$x;
+	map { print "$i"; map { my $t = substr($_, 0, 1, ""); print (defined $t ? $t : $") } @_; print $/ } 1..$m
 }
-{
-	my $mostsigs = ( sort { scalar(keys %{$sigs{$b}}) <=> scalar(keys %{$sigs{$a}}) } keys %sigs) [0];
-	printf "%s received the most number of new signatures: %d\n", $mostsigs, scalar(keys %{$sigs{$mostsigs}} );
 
-	$mostsigs = ( sort { scalar(keys %{$sigsby{$b}}) <=> scalar(keys %{$sigsby{$a}}) } keys %sigsby) [0];
-	printf "%s made the most number of new signatures: %d\n", $mostsigs, scalar(keys %{$sigsby{$mostsigs}} );
+
+print "Signature matrix\n";
+print "================\n";
+print "is row signed by column?\n";
+my ($Psigs, $Fsigs, $maxsigs) = (0,0,0);
+rows_to_cols [1..@keyid], 0, 1, "      ";
+for my $onton (1..@keyid) {
+	$onto = $keyid[$onton-1];
+	printf "%3d  |", $onton;
+	for my $byn (1..@keyid) {
+		my $by = $keyid[$byn-1];
+		if( $onto eq $by ) {
+			print "\\";
+		} elsif( ! defined $sigs{$onto}->{$by} ) {
+			print " ";
+			$maxsigs++;
+		} elsif( $sigs{$onto}->{$by} eq "P" ) {
+			print "x";
+			$Psigs++;
+			$maxsigs++;
+		} elsif( $sigs{$onto}->{$by} eq "F" ) {
+			print "X";
+			$Fsigs++;
+			$maxsigs++;
+		}
+	}
+	print "|   $onto $uid{$onto}\n";
 }
-printf "%d keys with no new signatures [2]\n", scalar(grep { scalar(keys %{$_}) == 0 } values %sigs);
-printf "%d keys made no new signatures [2]\n", scalar(grep { scalar(keys %{$_}) == 0 } values %sigsby);
-print "\n";
-print "[1] a signature between keys is a signature on at least one UID of that key\n";
-print "[2] GnuPG by default does not resign previously signed keys\n";
+printf "Signatures before %s \"x\": %d/%d (%0.1f%%)\n", $since, $Psigs, $maxsigs, $Psigs/$maxsigs*100;
+printf "Signatures since %s \"X\": %d/%d (%0.1f%%)\n", $since, $Fsigs, $maxsigs, $Fsigs/$maxsigs*100;
+printf "Total signatures: %d/%d (%0.1f%%)\n", ($Fsigs+$Psigs), $maxsigs, ($Fsigs+$Psigs)/$maxsigs*100;
+
 print "\n";
 {
 	print "Signature class popularity:\n";
+	our ($a, $b); # dummy, to silence warnings
 	my $total = reduce { $a + $b } values %sigclass;
 	foreach my $c (qw/10 11 12 13/) {
 		printf "    %s : %d (%0.1f%%)\n", $c, $sigclass{$c}, $sigclass{$c}/$total*100;
