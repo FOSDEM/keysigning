@@ -94,7 +94,7 @@ sub add_key($$) {
 		    $uid, $rest) = split(/:/, $_);
 
 		# Sanity check.
-		if ($keyid eq "" or $uid eq "") {
+		if ($keyid eq "" or $uid eq "" or $keylength == 0) {
 			print STDERR "Key rejected: invalid key\n" if $debug;
 			send_response($c, 400, "Invalid key");
 			last;
