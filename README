@@ -26,7 +26,7 @@ Scripts
 
  o klist.head.sh -- generate list header for this year
    Generates the klist.head file with this edition's
-   year number in there.
+   year number in there. Called by klist.sh.
 
  o klist.sh -- key list generator.
    Generates a pretty-printable list of keys from the
@@ -94,7 +94,6 @@ Sequence of events for a FOSDEM
   List generation, week before FOSDEM:
 
     o Touch kspd.lock to stop submissions
-    o Run klist.head.sh
     o Run klist.sh
     o Verify hashes with someone
     o Sign the list
