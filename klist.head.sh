@@ -6,7 +6,7 @@ YEAR="$( date +%Y )"
 YEAR_SPACES="$( date +%Y | sed 's/\(.\)/\1 /g' )"
 HOMEWORK_BY="$(date --date="next sunday +4 months" +"%A %e %B %Y")"
 
-cat > klist.head <<EOT
+cat <<EOT
                                         --Niels Laukens <niels@fosdem.org>
 
 
