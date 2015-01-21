@@ -33,6 +33,7 @@ echo "$N keys imported     "
 
 # Print each key neatly into the keylist.
 echo "Generating list..."
+SEPARATOR="--------------------------------------------------------------------------------"
 (
     $basedir/klist.head.sh
 
@@ -42,9 +43,27 @@ echo "Generating list..."
 	    s/^pub/$c  [ ] Fingerprint OK        [ ] ID OK\npub/m or $C--' |
 	grep -v '^uid.*jpeg image of size' |
 	sed -e 's/^uid\s*/uid /' |
-	sed -e 's/^$/--------------------------------------------------------------------------------\n/' |
+	sed -e 's/^$/'$SEPARATOR'\n/' |
 	tail -n +3
 ) | perl $basedir/kstats.pl > $basedir/output/keylist.txt
+
+echo "Generating HTML version of list..."
+(
+	printf '<html><head><meta http-equiv="Content-Type" '
+	printf 'content="text/html;charset=UTF-8"><title>'
+	printf 'FOSDEM keysigning event keylist</title><style>'
+	printf '@media print { pre {page-break-inside: avoid;} }'
+	printf '</style></head><body><pre>'
+	perl -pe 'BEGIN {
+			use HTML::Entities;
+			binmode STDIN, ":encoding(UTF-8)";
+			binmode STDOUT, ":encoding(UTF-8)";
+		};
+		$_=encode_entities($_, "<>&");
+		s%'$SEPARATOR'%---------------------------------------------------------------------</pre><pre>%
+		' < $basedir/output/keylist.txt
+	echo "</pre></body></html>"
+) > $basedir/output/keylist.html
 
 # Generate a tarball too.
 echo "Generating tarball"
