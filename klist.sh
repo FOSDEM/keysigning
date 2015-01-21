@@ -33,35 +33,31 @@ echo "$N keys imported     "
 
 # Print each key neatly into the keylist.
 echo "Generating list..."
-SEPARATOR="--------------------------------------------------------------------------------"
-(
-    $basedir/klist.head.sh
-
-    gpg --homedir $gpghome -q --no-options --fingerprint --list-key |
-	grep -v '^sub' |
-	perl -npe '$c = sprintf("%03d", ++$C);
-	    s/^pub/$c  [ ] Fingerprint OK        [ ] ID OK\npub/m or $C--' |
-	grep -v '^uid.*jpeg image of size' |
-	sed -e 's/^uid\s*/uid /' |
-	sed -e 's/^$/'$SEPARATOR'\n/' |
-	tail -n +3
-) | perl $basedir/kstats.pl > $basedir/output/keylist.txt
-
-echo "Generating HTML version of list..."
 (
 	printf '<html><head><meta http-equiv="Content-Type" '
 	printf 'content="text/html;charset=UTF-8"><title>'
 	printf 'FOSDEM keysigning event keylist</title><style>'
 	printf '@media print { pre {page-break-inside: avoid;} }'
-	printf '</style></head><body><pre>'
-	perl -pe 'BEGIN {
-			use HTML::Entities;
-			binmode STDIN, ":encoding(UTF-8)";
-			binmode STDOUT, ":encoding(UTF-8)";
-		};
-		$_=encode_entities($_, "<>&");
-		s%'$SEPARATOR'%---------------------------------------------------------------------</pre><pre>%
-		' < $basedir/output/keylist.txt
+	printf '</style></head><body><pre>\n'
+
+	$basedir/klist.head.sh
+
+	gpg --homedir $gpghome -q --no-options --fingerprint --list-key |
+		tail -n +3 |
+		grep -v '^sub' |
+		perl -npe '$c = sprintf("%03d", ++$C);
+		    s/^pub/$c  [ ] Fingerprint OK        [ ] ID OK\npub/m or $C--' |
+		grep -v '^uid.*jpeg image of size' |
+		sed -e 's/^uid\s*/uid /' |
+		perl -pe 'BEGIN {
+				use HTML::Entities;
+				binmode STDIN, ":encoding(UTF-8)";
+				binmode STDOUT, ":encoding(UTF-8)";
+			};
+			$_=encode_entities($_, "<>&");' |
+		sed -e 's/^$/---------------------------------------------------------------------<\/pre><pre>\n/' |
+		perl $basedir/kstats.pl 2>/dev/null
+
 	echo "</pre></body></html>"
 ) > $basedir/output/keylist.html
 
@@ -73,7 +69,7 @@ gpg --homedir $gpghome -q --no-options --armor --export \
 # And a list of hashes - don't publish before the event!
 (
     cd $basedir/output
-    gpg --print-mds keylist.txt > hashes.txt
+    gpg --print-mds keylist.html > hashes.txt
 )
 
 echo

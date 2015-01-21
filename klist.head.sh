@@ -7,7 +7,7 @@ YEAR_SPACES="$( date +%Y | sed 's/\(.\)/\1 /g' )"
 HOMEWORK_BY="$(date --date="next sunday +4 months" +"%A %e %B %Y")"
 
 cat <<EOT
-                                        --Niels Laukens <niels@fosdem.org>
+                                        --Niels Laukens &lt;niels@fosdem.org&gt;
 
 
           F O S D E M   ${YEAR_SPACES}  K E Y S I G N I N G   E V E N T
@@ -21,12 +21,15 @@ Here's what you have to do with this file:
     match with your expectation.
 
 (1) Print this UTF-8 encoded file to paper.
-    Use e.g. paps(1) from http://paps.sf.net/.
+    You can use your favorite browser and it will do its best to keep the key
+    blocks together on the same page.
+    People that are allergic to HTML can still print this file as plain text,
+    with minor inconveniences such as escape sequences.
 
 (2) Compute this file's RIPEMD160 and SHA256 checksums.
 
-      gpg --print-md RIPEMD160 ksp-fosdem${YEAR}.txt
-      gpg --print-md SHA256 ksp-fosdem${YEAR}.txt
+      gpg --print-md RIPEMD160 ksp-fosdem${YEAR}.html
+      gpg --print-md SHA256 ksp-fosdem${YEAR}.html
 
 (3) Fill in the hash values on the printout.
 
@@ -38,7 +41,7 @@ Here's what you have to do with this file:
     e.g.
        +----------------------------+
        | I am number 001            |
-       | My key-id & fingerprint: ☑ |
+       | My key-id &amp; fingerprint: ☑ |
        | The hashes:              ☐ |
        +----------------------------+
 
