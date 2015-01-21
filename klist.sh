@@ -19,13 +19,20 @@ mkdir -p $gpghome
 chmod 700 $gpghome
 
 # Import all keys into a clean gpg keyring.
+printf "Importing keys...\r"
+N=$( ls -1 $basedir/keys | wc -l )
+i=0
 for key in $(ls -1tr $basedir/keys); do
+    i=$(( $i + 1 ))
     # Skip files starting with !.
     [ "x${key%!*}" = "x" ] && continue
+    printf "Importing keys $i/$N\r";
     gpg --homedir $gpghome -q --import $basedir/keys/$key
 done
+echo "$N keys imported     "
 
 # Print each key neatly into the keylist.
+echo "Generating list..."
 (
     $basedir/klist.head.sh
 
@@ -40,6 +47,7 @@ done
 ) | perl $basedir/kstats.pl > $basedir/output/keylist.txt
 
 # Generate a tarball too.
+echo "Generating tarball"
 gpg --homedir $gpghome -q --no-options --armor --export \
     --export-options export-clean | bzip2 > $basedir/output/keyring.asc.bz2
 
