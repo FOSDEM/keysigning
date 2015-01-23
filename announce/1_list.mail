@@ -1,4 +1,3 @@
-From: Philip Paeps <philip@fosdem.org>
 To: fosdem@lists.fosdem.org
 Subject: Keysigning: list of participants now available
 
@@ -7,27 +6,31 @@ If you're taking part in the keysigning event, you should now:
 
   o Download the list:
 
-       http://ksp.fosdem.org/files/ksp-fosdem2014.txt
+       http://ksp.fosdem.org/files/ksp-fosdem2015.html
 
   o Optionally, if there's a trust path between your PGP key and mine,
     verify the integrity of the file using the detached signature:
 
-      http://ksp.fosdem.org/files/ksp-fosdem2014.txt.sig
+      http://ksp.fosdem.org/files/ksp-fosdem2015.html.sig
 
     e.g. using:
 
-      % gpg --verify ksp-fosdem2014.txt.sig ksp-fosdem2014.txt
+      % gpg --verify ksp-fosdem2015.html.sig ksp-fosdem2015.html
 
   o Verify that your fingerprint as shown on the list is correct.
 
-  o Print this list of keys with fingerprints on paper.
+  o Print this list of keys with fingerprints on paper. 
+    You can use your favorite browser and it will do its best to keep
+    the key blocks together on the same page.
+    People that are allergic to HTML can still print this file as
+    plain text, with minor inconveniences such as escape sequences.
 
   o Calculate the checksums of the file holding the list of keys.
 
     e.g. using:
 
-      % gpg --print-md RIPEMD160 ksp-fosdem2014.txt
-      % gpg --print-md SHA256 ksp-fosdem2014.txt
+      % gpg --print-md RIPEMD160 ksp-fosdem2015.html
+      % gpg --print-md SHA256 ksp-fosdem2015.html
 
   o Write the checksums you calculated in the designated blanks.
 
