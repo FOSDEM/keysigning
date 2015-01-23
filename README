@@ -101,6 +101,7 @@ Sequence of events for a FOSDEM
       - Note: *not* the hashes file! This motivates people to verify
         the hashes themselves.
     o Also copy the keyring there
+    o Optionally run the stats-* scripts and put the output in files/
     o Update the vhost.conf to change the redirect
 
     o Send email (announce/1_list.mail) to fosdem@
