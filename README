@@ -50,7 +50,7 @@ Miscellaneous
  o htdocs/ contains symlinks to the submission scripts
    for anyone who wants to review them (what fun!).
 
- o Use paps --columns=2 --font=Monospace\ 5 ksp-fosdemXXXX.txt
+ o Use paps --columns=2 --font=Monospace\ 5 ksp-fosdemXXXX.html
    to print the keylist.
 
 
@@ -97,7 +97,7 @@ Sequence of events for a FOSDEM
     o Run klist.sh
     o Verify hashes with someone
     o Sign the list
-    o Put in files/ksp-fosdemXXXX.txt{,.asc}
+    o Put in files/ksp-fosdemXXXX.html{,.asc}
       - Note: *not* the hashes file! This motivates people to verify
         the hashes themselves.
     o Also copy the keyring there
