@@ -1,12 +1,27 @@
-#!/bin/bash
+#!/bin/sh
 
-# Generate klist.head
+BASEDIR=/var/ksp
+KEYDIR=$BASEDIR/keys
+OUTDIR=$BASEDIR/output
 
 YEAR="$( date +%Y )"
 YEAR_SPACES="$( date +%Y | sed 's/\(.\)/\1 /g' )"
 HOMEWORK_BY="$(date --date="next sunday +4 months" +"%A %e %B %Y")"
 
-cat <<EOT
+
+if [ -d "$OUTDIR" ]; then
+	echo "Output directory exists, delete it first" >&2
+	exit 2
+fi
+
+mkdir "$OUTDIR"
+
+echo "Generating keyring..." >&2
+$BASEDIR/bin/keydir-to-keyring.sh "$KEYDIR" > "$OUTDIR/keyring.gpg"
+
+# generate ksp-fosdem2015.txt
+(
+	cat <<EOT
                                         --Niels Laukens <niels@fosdem.org>
 
 
@@ -70,3 +85,13 @@ SHA256 Checksum:    __ __ __ __ __ __ __ __  __ __ __ __ __ __ __ __
 
 
 EOT
+	echo "-----BEGIN KEY LIST-----"
+	echo
+
+	$BASEDIR/scripts/keyring-to-keylist.sh "$OUTDIR/keyring.gpg"
+
+	echo
+	echo "-----END KEY LIST-----"
+) > "$OUTDIR/ksp-fosdem$YEAR.txt"
+
+( cd "$OUTDIR"; gpg --print-mds "ksp-fosdem$YEAR.txt" ) > "$OUTDIR/hashes.txt"
