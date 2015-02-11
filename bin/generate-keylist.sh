@@ -19,13 +19,13 @@ $BASEDIR/bin/keydir-to-keyring.sh "$KEYDIR" > "$OUTDIR/non-authoritative/keyring
 
 echo "Generating output formats..." >&2
 mkdir "$OUTDIR/non-authoritative/scripts"
-cp "$BASEDIR/scripts/"* "$OUTDIR/non-authoritative/scripts/"
+cp -r "$BASEDIR/scripts/"* "$OUTDIR/non-authoritative/scripts/"
 (
 	cd "$OUTDIR/non-authoritative"
 	for s in scripts/*; do
 		fn="${s##*/}"
 		fn="${fn%.*}"
-		$s > "$fn"
+		if [ -x "$s" ]; then $s > "$fn"; fi
 	done
 )
 echo "Generating output formats done" >&2

@@ -7,14 +7,18 @@ use warnings;
 use List::Util qw/reduce/;
 use DateTime;
 
+use File::Temp qw/tempdir/;
+
 use FindBin;
-use lib $FindBin::Bin;
+use lib $FindBin::Bin . "/lib";
 use Bin;
 
-my $basedir = "/var/ksp";
-my $gpghome = "$basedir/output/gpg";
-my $now = DateTime->now;
-#$now = DateTime->new( year => 2014, month => 2, day => 2 );
+my $keyring = "keyring.gpg";
+if( @ARGV == 1 ) {
+	$keyring = $ARGV[0];
+}
+
+my $now = time;
 
 my @age_bins = (
 	["0d", 0],
@@ -32,7 +36,11 @@ my $age_key = new Bin(map { $_->[1] } @age_bins);
 my $age_ssig = new Bin(map { $_->[1] } @age_bins);
 
 
-open my $keys_fh, "gpg --homedir \"$gpghome\" --list-sigs --with-colons |"
+my $tempdir = tempdir(CLEANUP => 1);
+my $rv = system("gpg", "--homedir", $tempdir, "-q", "--import", $keyring) >> 8;
+if( $rv != 0 ) { die "Could not import keyring"; }
+
+open my $keys_fh, "gpg --homedir \"$tempdir\" --list-sigs --with-colons --fixed-list-mode |"
 	or die "Could not list keys";
 
 my %algo = (
@@ -64,13 +72,7 @@ while(<$keys_fh>) {
 
 		$algolength_master{ $algo{$algo} }->{ $keylength }++;
 		$numkeys++;
-		if( $create_date =~ m/(\d\d\d\d)-(\d\d)-(\d\d)/ ) {
-			my $cd = DateTime->new( year => $1, month => $2, day => $3 );
-			my $delta = $cd->delta_days( $now );
-			$age_key->add( $delta->in_units('days') );
-		} else {
-			die "Invalid create_date: $create_date";
-		}
+		$age_key->add( ($now - $create_date)/86400 );
 
 	} elsif( m/^sub:([^:]*):(\d*):(\d*):([0-9A-Fa-f]*):([^:]*):([^:]*):():([^:]*):([^:]*):():([^:]*):/ ) {
 
@@ -83,15 +85,9 @@ while(<$keys_fh>) {
 		next if $uid eq "[User ID not found]";
 
 		if( $keyid eq $onto ) { # Self sig
-			if( $create_date =~ m/(\d\d\d\d)-(\d\d)-(\d\d)/ ) {
-				my $cd = DateTime->new( year => $1, month => $2, day => $3 );
-				my $delta = $cd->delta_days( DateTime->now );
-				$delta = $delta->in_units('days');
-				if( ! defined $most_recent_ssig || $delta < $most_recent_ssig ) {
-					$most_recent_ssig = $delta;
-				}
-			} else {
-				die "Invalid create_date: $create_date";
+			my $delta = ($now - $create_date)/86400;
+			if( ! defined $most_recent_ssig || $delta < $most_recent_ssig ) {
+				$most_recent_ssig = $delta;
 			}
 		}
 

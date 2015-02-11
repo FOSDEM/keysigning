@@ -7,8 +7,12 @@ use warnings;
 use List::Util qw/reduce/;
 use DateTime;
 
-my $basedir = "/var/ksp";
-my $gpghome = "$basedir/output/gpg";
+use File::Temp qw/tempdir/;
+
+my $keyring = "keyring.gpg";
+if( @ARGV == 1 ) {
+	$keyring = $ARGV[0];
+}
 
 my $since = "2015-02-01";
 my $until;
@@ -17,8 +21,12 @@ my $until;
 	$until = sprintf "%04d-%02d-%02d", $year+1900, $mon+1, $mday;
 }
 
+my $tempdir = tempdir(CLEANUP => 1);
+my $rv = system("gpg", "--homedir", $tempdir, "-q", "--import", $keyring) >> 8;
+if( $rv != 0 ) { die "Could not import keyring"; }
+
 {
-	my (undef,undef,undef,undef,undef,undef,undef,undef,undef,$mtime,undef,undef,undef) = stat "$gpghome/pubring.gpg";
+	my (undef,undef,undef,undef,undef,undef,undef,undef,undef,$mtime,undef,undef,undef) = stat $keyring;
 	if( $until !~ m/(\d\d\d\d)-(\d\d)-(\d\d)/ ) {
 		die "invalid until date: $until";
 	}
@@ -29,7 +37,7 @@ my $until;
 }
 
 
-open my $keys_fh, "gpg --homedir \"$gpghome\" --list-sigs --with-colons |"
+open my $keys_fh, "gpg --homedir \"$tempdir\" --list-sigs --with-colons |"
 	or die "Could not list keys";
 
 
