@@ -1,10 +1,12 @@
 #!/bin/sh
 
-if [ $# -ne 1 ]; then
+KEYRING="${1:-keyring.gpg}"
+if [ ! -r "$KEYRING" ]; then
+	echo "Could not read $KEYRING"
+	echo
 	echo "Usage: $0 keyring.gpg"
-	exit 64 # EX_USAGE
+	exit 2
 fi
-KEYRING="$1"
 
 TMPDIR="$( mktemp --tmpdir -d ksp-XXXXXXXX )"
 cleanup() {
@@ -16,7 +18,7 @@ echo "Using $TMPDIR as temporary GNUPGHOME..." >&2
 echo "Importing keyring..." >&2
 gpg --homedir "$TMPDIR" -q --import "$KEYRING"
 
-echo "Exporting keylist..." >&2
+echo "Exporting HTML..." >&2
 
 cat <<EOT
 <html>

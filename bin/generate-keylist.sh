@@ -19,6 +19,19 @@ mkdir "$OUTDIR"
 echo "Generating keyring..." >&2
 $BASEDIR/bin/keydir-to-keyring.sh "$KEYDIR" > "$OUTDIR/keyring.gpg"
 
+echo "Generating output formats..." >&2
+mkdir "$OUTDIR/scripts"
+cp "$BASEDIR/scripts/"* "$OUTDIR/scripts/"
+mkdir "$OUTDIR/contrib"
+(
+	cd "$OUTDIR"
+	for s in scripts/*; do
+		fn="${s#scripts/}"
+		fn="${fn%.*}"
+		$s > "contrib/$fn"
+	done
+)
+
 # generate ksp-fosdem2015.txt
 (
 	cat <<EOT
@@ -88,8 +101,9 @@ EOT
 	echo "-----BEGIN KEY LIST-----"
 	echo
 
-	$BASEDIR/scripts/keyring-to-keylist.sh "$OUTDIR/keyring.gpg"
+	cat "$OUTDIR/contrib/keylist.txt"
 
 	echo
 	echo "-----END KEY LIST-----"
 ) > "$OUTDIR/ksp-fosdem$YEAR.txt"
+
