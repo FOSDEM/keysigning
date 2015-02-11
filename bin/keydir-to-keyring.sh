@@ -35,6 +35,6 @@ for key in $(ls -1tr "$KEYS"); do
 done
 printf "                                   \r" >&2
 echo "$N keys imported" >&2
-gpg --homedir "$TMPDIR" -q --export
+gpg --homedir "$TMPDIR" -q --export --export-options export-minimal
 
 cleanup
