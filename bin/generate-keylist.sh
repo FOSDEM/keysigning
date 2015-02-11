@@ -5,40 +5,39 @@ KEYDIR=$BASEDIR/keys
 OUTDIR=$BASEDIR/output
 
 YEAR="$( date +%Y )"
-YEAR_SPACES="$( date +%Y | sed 's/\(.\)/\1 /g' )"
 HOMEWORK_BY="$(date --date="next sunday +4 months" +"%A %e %B %Y")"
-
 
 if [ -d "$OUTDIR" ]; then
 	echo "Output directory exists, delete it first" >&2
 	exit 2
 fi
 
-mkdir "$OUTDIR"
+mkdir -p "$OUTDIR/non-authoritative"
 
 echo "Generating keyring..." >&2
-$BASEDIR/bin/keydir-to-keyring.sh "$KEYDIR" > "$OUTDIR/keyring.gpg"
+$BASEDIR/bin/keydir-to-keyring.sh "$KEYDIR" > "$OUTDIR/non-authoritative/keyring.gpg"
 
 echo "Generating output formats..." >&2
-mkdir "$OUTDIR/scripts"
-cp "$BASEDIR/scripts/"* "$OUTDIR/scripts/"
-mkdir "$OUTDIR/contrib"
+mkdir "$OUTDIR/non-authoritative/scripts"
+cp "$BASEDIR/scripts/"* "$OUTDIR/non-authoritative/scripts/"
 (
-	cd "$OUTDIR"
+	cd "$OUTDIR/non-authoritative"
 	for s in scripts/*; do
-		fn="${s#scripts/}"
+		fn="${s##*/}"
 		fn="${fn%.*}"
-		$s > "contrib/$fn"
+		$s > "$fn"
 	done
 )
+echo "Generating output formats done" >&2
 
 # generate ksp-fosdem2015.txt
 (
+	YEAR_SPACES="$( echo "$YEAR" | sed 's/\(.\)/\1 /g' )"
 	cat <<EOT
                                         --Niels Laukens <niels@fosdem.org>
 
 
-          F O S D E M   ${YEAR_SPACES}  K E Y S I G N I N G   E V E N T
+          F O S D E M   ${YEAR_SPACES}   K E Y S I G N I N G   E V E N T
 
                             List of Participants
 
@@ -96,14 +95,31 @@ SHA256 Checksum:    __ __ __ __ __ __ __ __  __ __ __ __ __ __ __ __
                     __ __ __ __ __ __ __ __  __ __ __ __ __ __ __ __       [ ]
 
 
-
 EOT
 	echo "-----BEGIN KEY LIST-----"
 	echo
 
-	cat "$OUTDIR/contrib/keylist.txt"
+	cat "$OUTDIR/non-authoritative/keylist.txt"
 
 	echo
 	echo "-----END KEY LIST-----"
 ) > "$OUTDIR/ksp-fosdem$YEAR.txt"
 
+cat > "$OUTDIR/README" <<'EOT'
+Welcome to the FOSDEM key signing event server.
+
+Here you can download the official key list for the event.  The only
+official file is the "ksp-fosdem${YEAR}.txt" file in the root directory.
+This will be the file of which the hashes will be compared at the event
+itself.
+
+Besides this official list, we also provide non-authoritative files that may
+make your life easier.  It is up to you, the participant, to verify that
+these files actually contain the same information than the official list:
+e.g. for the `keyring.gpg` file, you could run the `keylist.txt.sh` script
+and verify that the output similar enough to the official list.  Note that
+different GnuPG version may output slightly different output.  In
+particular, GnuPG older than version 2.1 uses a different key format [1].
+
+[1] https://www.gnupg.org/faq/whats-new-in-2.1.html#keylist
+EOT
