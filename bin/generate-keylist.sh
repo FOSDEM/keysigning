@@ -93,5 +93,3 @@ EOT
 	echo
 	echo "-----END KEY LIST-----"
 ) > "$OUTDIR/ksp-fosdem$YEAR.txt"
-
-( cd "$OUTDIR"; gpg --print-mds "ksp-fosdem$YEAR.txt" ) > "$OUTDIR/hashes.txt"
