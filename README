@@ -24,18 +24,13 @@ Scripts
    Writes received keys to keys/* with filename keyid.
    Refuses submissions if a kspd.lock file is present.
 
- o klist.head.sh -- generate list header for this year
-   Generates the klist.head file with this edition's
-   year number in there. Called by klist.sh.
-
- o klist.sh -- key list generator.
-   Generates a pretty-printable list of keys from the
-   keys in keys/* and klist.head.  Uses kstats.pl to
-   add some statistics for every key.
-
- o kstats.pl -- key statistics.
-   Looks up statistics for every key.  Used internally
-   by klist.sh.  Probably shouldn't be touched. :-)
+ o bin/generate-keylist.sh -- the keylist generation script
+   This parses in the keys/ directory and generates the output directory.
+   It uses:
+   - bin/keydir-to-keyring.sh  to parse the keys/ directory into a keyring
+   - scripts/*  to render different views of the keyring
+   - templates/keylist-head.sh  to render the header for the official
+     ksp-fosdemXXXX.txt file
 
  o subgraph.pl -- graph submissions.
    Hackish script to throw submissions-per-day into
@@ -94,16 +89,12 @@ Sequence of events for a FOSDEM
   List generation, week before FOSDEM:
 
     o Touch kspd.lock to stop submissions
-    o Run klist.sh
-    o Verify hashes with someone
-    o Sign the list
-    o Put in files/ksp-fosdemXXXX.txt{,.asc}
-      - Note: *not* the hashes file! This motivates people to verify
-        the hashes themselves.
-    o Also copy the keyring there
-    o Optionally run the stats-* scripts and put the output in files/
+    o Run bin/generate-keylist.sh
+    o Sign the list and the non-authoritative files
+    o Copy output/* to files/
+      This allows you to experiment while the files are kept in a consistent
+      state
     o Update the vhost.conf to change the redirect
-
     o Send email (announce/1_list.mail) to fosdem@
     o Update website
       - In the Nanoc site, it should be sufficient to edit the
