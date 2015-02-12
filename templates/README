@@ -1,0 +1,16 @@
+Welcome to the FOSDEM key signing event server.
+
+Here you can download the official key list for the event.  The only
+official file is the "ksp-fosdem${YEAR}.txt" file in the root directory.
+This will be the file of which the hashes will be compared at the event
+itself.
+
+Besides this official list, we also provide non-authoritative files that may
+make your life easier.  It is up to you, the participant, to verify that
+these files actually contain the same information than the official list:
+e.g. for the `keyring.gpg` file, you could run the `keylist.txt.sh` script
+and verify that the output similar enough to the official list.  Note that
+different GnuPG version may output slightly different output.  In
+particular, GnuPG older than version 2.1 uses a different key format [1].
+
+[1] https://www.gnupg.org/faq/whats-new-in-2.1.html#keylist
