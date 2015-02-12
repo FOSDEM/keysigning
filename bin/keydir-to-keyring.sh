@@ -16,12 +16,11 @@ if [ ! -d "$KEYS" ]; then
 	exit 1
 fi
  
-TMPDIR="$( mktemp --tmpdir -d ksp-XXXXXXXX )"
+TMPDIR="$( mktemp -d -t ksp-XXXXXXXX )"
 cleanup() {
         rm -rf "$TMPDIR"
 }
 trap cleanup INT TERM
-echo "Using $TMPDIR as temporary GNUPGHOME..." >&2
 
 printf "Importing keys...\r" >&2
 N=$( ls -1 "$KEYS" | wc -l )

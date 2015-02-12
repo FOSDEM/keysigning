@@ -8,12 +8,11 @@ if [ ! -r "$KEYRING" ]; then
 	exit 2
 fi
 
-TMPDIR="$( mktemp --tmpdir -d ksp-XXXXXXXX )"
+TMPDIR="$( mktemp -d -t ksp-XXXXXXXX )"
 cleanup() {
 	rm -rf "$TMPDIR"
 }
 trap cleanup INT TERM
-echo "Using $TMPDIR as temporary GNUPGHOME..." >&2
 
 echo "Importing keyring..." >&2
 gpg --homedir "$TMPDIR" -q --import "$KEYRING"
@@ -21,13 +20,19 @@ gpg --homedir "$TMPDIR" -q --import "$KEYRING"
 echo "Exporting text..." >&2
 gpg --homedir "$TMPDIR" -q --fingerprint --list-key |
 	tail -n +3 | # remove keyring name
-	grep -v '^sub' | # Strip out subkeys
-	perl -npe '$c = sprintf("%03d", ++$C);
-		s/^pub/$c  [ ] Fingerprint OK        [ ] ID OK\npub/m or $C--' |
-	sed -e 's/^uid\s*/uid /' | # Normalize spaces
-	sed '$d' | # remove last line to end without a separator
-	sed -e 's/^$/--------------------------------------------------------------------------------\n/' # Add separator
-	
+	perl -pe '
+		BEGIN { $C=0; }
+		if( m/^pub/ ) {
+			print "--------------------------------------------------------------------------------\n\n" unless $C==0;
+			printf "%03d  [ ] Fingerprint OK        [ ] ID OK\n", ++$C;
+		} elsif( m/^uid/ ) {
+			s/^uid\s*(\[[^\]]+\][ \t]+)?/uid  /; # strip [trust]
+		} elsif( m/^sub/ ) {
+			$_=""; # Do not print
+		} elsif( m/^$/ ) {
+			$_=""; # Do not print
+		}
+	'
 
 echo "Done" >&2
 
