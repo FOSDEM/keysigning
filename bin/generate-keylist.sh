@@ -25,7 +25,7 @@ cp -r "$BASEDIR/scripts/"* "$OUTDIR/non-authoritative/scripts/"
 	for s in scripts/*; do
 		fn="${s##*/}"
 		fn="${fn%.*}"
-		if [ -x "$s" ]; then $s > "$fn"; fi
+		if [ -f "$s" -a -x "$s" ]; then $s > "$fn"; fi
 	done
 )
 echo "Generating output formats done" >&2
