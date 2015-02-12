@@ -19,6 +19,11 @@ if( @ARGV == 1 ) {
 }
 
 my $now = time;
+my $now_str;
+{
+	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($now);
+	$now_str = sprintf "%d-%02d-%02d", $year+1900, $mon+1, $mday;
+}
 
 my @age_bins = (
 	["0d", 0],
@@ -91,11 +96,9 @@ while(<$keys_fh>) {
 			}
 		}
 
+	} elsif( m/^rvk:/ ) {
 	} elsif( m/^rev:/ ) {
-
 	} elsif( m/^tru:/ ) {
-		# Trust database info, ignore
-
 	} else {
 		print STDERR "Unrecognized line: $_";
 	}
@@ -125,7 +128,7 @@ print "===================================\n";
 }
 print "\n";
 {
-	print "Master key age breakdown by creation date:\n";
+	print "Master key age breakdown by creation date (reference date: $now_str):\n";
 	printf "    %d keys younger than %s\n", $age_key->{tally}->[0], $age_bins[0]->[0];
 	for my $i (0..(@age_bins-1)) {
 		printf "    %d keys older than %s\n", $age_key->{tally}->[$i+1], $age_bins[$i]->[0];
@@ -133,7 +136,7 @@ print "\n";
 }
 print "\n";
 {
-	print "Master key age breakdown by date of last selfsig:\n";
+	print "Master key age breakdown by date of last selfsig (reference date: $now_str):\n";
 	printf "    %d self-sigs younger than %s\n", $age_ssig->{tally}->[0], $age_bins[0]->[0];
 	for my $i (0..(@age_bins-1)) {
 		printf "    %d self-sigs older than %s\n", $age_ssig->{tally}->[$i+1], $age_bins[$i]->[0];
