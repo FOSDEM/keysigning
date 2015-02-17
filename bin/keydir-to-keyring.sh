@@ -31,6 +31,8 @@ for key in $(ls -1tr "$KEYS"); do
     [ "x${key%!*}" = "x" ] && continue
     printf "Importing keys $i/$N\r" >&2
     gpg --homedir "$TMPDIR" -q --import-options import-minimal --import "$KEYS/$key"
+    # Some keys have sigs out of order, simply entering edit mode and saving solves this
+    echo "save" | gpg --homedir "$TMPDIR" --command-fd 0 -q --no-tty --edit-key "$key" >/dev/null 2>/dev/null
 done
 printf "                                   \r" >&2
 echo "$N keys imported" >&2
