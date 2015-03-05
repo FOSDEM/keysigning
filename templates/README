@@ -14,3 +14,16 @@ different GnuPG version may output slightly different output.  In
 particular, GnuPG older than version 2.1 uses a different key format [1].
 
 [1] https://www.gnupg.org/faq/whats-new-in-2.1.html#keylist
+
+Some other projects that you may find useful to prepare your keylist:
+
+ * https://github.com/vatral/KeySigningPartyTools
+
+ * https://github.com/nielslaukens/key-signing-party-html
+
+
+Some projects that you may find useful to do your signing homework:
+
+ * http://pgp-tools.alioth.debian.org/
+
+ * http://www.phildev.net/pius/
