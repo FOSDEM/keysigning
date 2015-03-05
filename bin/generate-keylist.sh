@@ -28,6 +28,7 @@ cp -r "$BASEDIR/scripts/"* "$OUTDIR/non-authoritative/scripts/"
 echo "Generating output formats done" >&2
 
 # generate ksp-fosdem2015.txt
+YEAR="$(date --date "6 months" +%Y)"
 (
 	"$BASEDIR/templates/keylist-head.sh"
 
