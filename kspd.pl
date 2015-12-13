@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 
 # ----------------------------------------------------------------------------
 # "THE BEER-WARE LICENSE" (Revision 42):
@@ -13,14 +13,15 @@
 #
 
 use strict;
+use warnings;
 
 use CGI::Util qw/unescape/;
 use File::Temp qw/tempfile/;
 use HTTP::Daemon;
 use POSIX;
 
-my $basedir = "/var/ksp";
-my $gpg = "/usr/bin/gpg";
+my $basedir = "/home/ksp";
+my $gpg = "/usr/local/bin/gpg";
 my $gpgflags = "-q --no-options --homedir=$basedir/gpg";
 
 my $daemonize = 1;

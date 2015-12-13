@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BASEDIR=/var/ksp
+BASEDIR=/home/ksp
 KEYDIR=$BASEDIR/keys
 OUTDIR=$BASEDIR/output
 
@@ -28,7 +28,8 @@ cp -r "$BASEDIR/scripts/"* "$OUTDIR/non-authoritative/scripts/"
 echo "Generating output formats done" >&2
 
 # generate ksp-fosdem2015.txt
-YEAR="$(date --date "6 months" +%Y)"
+#YEAR="$(date --date "6 months" +%Y)"
+YEAR="$(date -v+6m +%Y)"
 (
 	"$BASEDIR/templates/keylist-head.sh"
 

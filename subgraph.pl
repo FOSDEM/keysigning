@@ -18,9 +18,9 @@ use POSIX qw/strftime/;
 use RRDs;
 use Time::Local;
 
-my $year = "2015";			# Current FOSDEM edition.
-my $startdate = "20141123";		# Start date of submissions.
-my $basedir = "/var/ksp";		# Absolute location of files.
+my $year = "2016";			# Current FOSDEM edition.
+my $startdate = "20151204";		# Start date of submissions.
+my $basedir = "/home/ksp";		# Absolute location of files.
 
 # Bail out if submissions are closed!
 if (-e "$basedir/kspd.lock") {
