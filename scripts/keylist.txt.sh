@@ -15,10 +15,10 @@ cleanup() {
 trap cleanup INT TERM
 
 echo "Importing keyring..." >&2
-gpg --homedir "$TMPDIR" -q --import "$KEYRING"
+gpg2 --homedir "$TMPDIR" -q --import "$KEYRING"
 
 echo "Exporting text..." >&2
-gpg --homedir "$TMPDIR" -q --fingerprint --list-key |
+gpg2 --homedir "$TMPDIR" -q --fingerprint --list-key |
 	tail -n +3 | # remove keyring name
 	perl -pe '
 		BEGIN { $C=0; }
