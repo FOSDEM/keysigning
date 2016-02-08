@@ -3,6 +3,8 @@
 BASEDIR=/home/ksp
 KEYDIR=$BASEDIR/keys
 OUTDIR=$BASEDIR/output
+LANG=en_GB.UTF-8
+export LANG
 
 if [ -d "$OUTDIR" ]; then
 	echo "Output directory exists, delete it first" >&2
