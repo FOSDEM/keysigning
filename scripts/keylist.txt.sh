@@ -22,6 +22,7 @@ gpg2 --homedir "$TMPDIR" -q --fingerprint --list-key |
 	tail -n +3 | # remove keyring name
 	perl -pe '
 		BEGIN { $C=0; }
+		s/\[expired:/uc($&)/e;
 		if( m/^pub/ ) {
 			print "--------------------------------------------------------------------------------\n\n" unless $C==0;
 			printf "%03d  [ ] Fingerprint OK        [ ] ID OK\n", ++$C;
