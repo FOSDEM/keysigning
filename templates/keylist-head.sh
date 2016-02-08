@@ -1,12 +1,11 @@
 #!/bin/sh
 
 YEAR="$( date +%Y )"
-#HOMEWORK_BY="$(date --date="next sunday +4 months" +"%A %e %B %Y")"
-HOMEWORK_BY="$(date -v+Sun -v+4m +"%A %e %B %Y")"
+#HOMEWORK_BY="$(date --date="next sunday +3 months" +"%A %e %B %Y")"
+HOMEWORK_BY="$(date -v+Sun -v+3m +"%A %e %B %Y")"
 
 YEAR_SPACES="$( echo "$YEAR" | sed 's/\(.\)/\1 /g' )"
 cat <<EOT
-                                        --Niels Laukens <niels@fosdem.org>
 
 
           F O S D E M   ${YEAR_SPACES}  K E Y S I G N I N G   E V E N T
