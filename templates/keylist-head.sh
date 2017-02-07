@@ -19,7 +19,7 @@ Here's what you have to do with this file:
     match with your expectation.
 
 (1) Print this UTF-8 encoded file to paper.
-    Use e.g. paps(1) from http://paps.sf.net/.
+    Use e.g. paps(1) from http://paps.sf.net/. paps --columns=2 --font=Monospace\ 5 ksp-fosdemXXXX.txt
 
 (2) Compute this file's RIPEMD160 and SHA256 checksums.
 
