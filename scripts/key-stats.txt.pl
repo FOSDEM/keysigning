@@ -58,6 +58,7 @@ my %algo = (
 	19 => "ECDSA",		# Reserved for ECDSA
 	20 => "ElGamal",	# Reserved (formerly Elgamal Encrypt or Sign)
 	21 => "DH",		# Reserved for Diffie-Hellman (X9.42, as defined for IETF-S/MIME)
+	22 => "EDDSA",		# https://tools.ietf.org/html/draft-koch-eddsa-for-openpgp-04 used by GnuPG 2.1
 );
 
 my %algolength_master;
@@ -82,6 +83,8 @@ while(<$keys_fh>) {
 	} elsif( m/^sub:([^:]*):(\d*):(\d*):([0-9A-Fa-f]*):([^:]*):([^:]*):():([^:]*):([^:]*):():([^:]*):/ ) {
 
 	} elsif( m/^uid:/ ) {
+
+	} elsif( m/^fpr:/ ) {
 
 	} elsif( m/^uat:/ ) {
 
